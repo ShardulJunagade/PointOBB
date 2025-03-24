@@ -6,6 +6,7 @@
 /home/shardul.junagade/miniconda3/bin/conda create -n open-mmlab python=3.8 -y
 
 source /home/shardul.junagade/miniconda3/bin/activate open-mmlab
+# source /home/shardul.junagade/miniconda3/bin/activate pointobb
 
 
 conda install pytorch==1.9.0 torchvision==0.10.0 cudatoolkit=11.1 -c pytorch -c nvidia
