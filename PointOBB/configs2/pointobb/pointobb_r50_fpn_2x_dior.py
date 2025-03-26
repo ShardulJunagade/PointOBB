@@ -23,7 +23,7 @@ model = dict(
         out_channels=256,
         start_level=0,
         add_extra_convs='on_input',
-        num_outs=4, 
+        num_outs=4,
         norm_cfg=norm_cfg
     ),
     
@@ -83,7 +83,7 @@ model = dict(
                 type='MILLoss',
                 binary_ins=False,
                 loss_weight=0.25,
-                loss_type='binary_cross_entropy'), 
+                loss_type='binary_cross_entropy'),
             loss_mil2=dict(
                 type='MILLoss',
                 binary_ins=False,
@@ -108,7 +108,7 @@ model = dict(
         ),
         rcnn=None,
         iter_count = 0,
-        burn_in_steps1 = 16000, 
+        burn_in_steps1 = 16000,
         burn_in_steps2 = 22000
     ),
     test_cfg=dict(
@@ -160,7 +160,7 @@ data_root_test = '../Dataset/DIOR/'
 
 data = dict(
     samples_per_gpu=2,
-    workers_per_gpu=2,  
+    workers_per_gpu=2,
     shuffle=False if debug else None,
     train=dict(
         type=dataset_type,

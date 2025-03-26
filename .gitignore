@@ -1,4 +1,7 @@
 data/
+data_subset/
+images/
+annfiles/
 .vscode
 xxx/
 work_dirs/

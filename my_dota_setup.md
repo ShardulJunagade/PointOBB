@@ -23,8 +23,7 @@ mim install mmengine
 pip install shapely
 ```
 
-
-## Remove Environment
+### Remove Environment
 
 ```sh
 conda deactivate
@@ -32,9 +31,9 @@ conda deactivate
 ```
 
 
+## DOTA Dataset Preparation
 
-
-## Split DOTA dataset
+### Split DOTA dataset
 
 [Dataset Preparation](https://github.com/open-mmlab/mmyolo/blob/main/docs/en/recommended_topics/dataset_preparation.md)
 
@@ -42,7 +41,7 @@ Script `tools/dataset_converters/dota/dota_split.py` can split and prepare DOTA 
 
 ```shell
 python tools/dataset_converters/dota/dota_split.py \
-    [--splt-config ${SPLIT_CONFIG}] \
+    [--split-config ${SPLIT_CONFIG}] \
     [--data-root ${DATA_ROOT}] \
     [--out-dir ${OUT_DIR}] \
     [--ann-subdir ${ANN_SUBDIR}] \
@@ -71,16 +70,62 @@ Based on the configuration in the DOTA paper, we provide two commonly used split
 - `./split_config/multi_scale.json` means multi-scale split.
 
 
-### Example for DOTA V1.0
+#### Example for DOTA V1.0
 Split DOTA V1.0 dataset into trainval and test set with single scale.
 ```sh
 source /home/shardul.junagade/miniconda3/bin/activate open-mmlab
 python tools/dataset_converters/dota/dota_split.py \
     tools/dataset_converters/dota/split_config/single_scale.json \
     "../data/DOTA_V1.0" \
-    "../data/split_ss_dota_1024_200" \
+    "../DOTAv10/data/split_ss_dota_1024_200" \
     --nproc 40
+```
+
+Splitting a subset of DOTA V1.0 dataset into train val and test set with single scale.
+```sh
+source /home/shardul.junagade/miniconda3/bin/activate open-mmlab
+python tools/dataset_converters/dota/dota_split.py \
+    tools/dataset_converters/dota/split_config/single_scale.json \
+    "../data/dota" \
+    "../DOTAv10/data_subset/split_ss_dota_1024_200" \
+    --phase "train" "val" "test" \
+    --nproc 45
+```
+
+## Convert DOTA to COCO format
+```sh
+source /home/shardul.junagade/miniconda3/bin/activate open-mmlab
+# Generate 'obb+pt' Format:
+python tools_data_trans/test_dota2dota_obbpt_viaobb.py
+# Generate COCO Format:
+python tools_data_trans/test_dota2coco_P2B_obb-pt.py
 ```
 
 
 
+## Train
+To train the model, follow these steps:
+```sh
+cd PointOBB
+# train with single GPU, note adjust learning rate or batch size accordingly
+python tools/train.py \
+    --config configs2/pointobb/pointobb_r50_fpn_2x_dota10.py \
+    --work-dir xxx/work_dir/pointobb_r50_fpn_2x_dota \
+    --cfg-options evaluation.save_result_file='xxx/work_dir_subset/pointobb_r50_fpn_2x_dota_dist/pseudo_obb_result.json'
+
+# train with multiple GPUs
+sh train_p_dist.sh
+```
+
+
+
+## Inference
+To inference (generate pseudo obb label), follow these steps:
+```sh
+# obtain COCO format pseudo label for the training set 
+sh test_p.sh
+# convert COCO format to DOTA format 
+sh tools_cocorbox2dota.sh
+# train standard oriented object detectors 
+# Please use algorithms in mmrotate (https://github.com/open-mmlab/mmrotate)
+```

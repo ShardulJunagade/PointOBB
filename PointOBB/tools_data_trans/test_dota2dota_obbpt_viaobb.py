@@ -6,11 +6,11 @@ from PIL import Image
 import math
 
 
-base_root = 'DOTAv10/data/split_ss_dota_1024_200/trainval/'
+base_root = '../DOTAv10/data/split_ss_dota_1024_200/trainval/'
 imageparent = os.path.join(base_root, 'images')
 obb_anno_root = os.path.join(base_root, 'annfiles')
 
-labelTxt_out_path = 'DOTAv10/data/split_ss_dota_1024_200/trainval/labelTxt_obb_pt_trainval_viaobb_v1.0'
+labelTxt_out_path = '../DOTAv10/data/split_ss_dota_1024_200/trainval/labelTxt_obb_pt_trainval_viaobb_v1.0'
 label_name_list = os.listdir(obb_anno_root)
 
 if not os.path.exists(labelTxt_out_path):
