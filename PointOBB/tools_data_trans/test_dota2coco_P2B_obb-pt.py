@@ -161,22 +161,26 @@ def DOTA2COCOTest(srcpath, destfile, cls_names, dataset='dota'):
 if __name__ == '__main__':
     dataset = input('Please input the dataset name (dota/dior): ')
     if dataset == 'dota':
-        DOTA2COCOTrain(r'DOTAv10/data/split_ss_dota_1024_200/trainval/',
-               r'DOTAv10/data/split_ss_dota_1024_200/trainval/trainval_1024_P2Bfmt_dotav10_rbox.json',
+        DOTA2COCOTrain(r'../DOTAv10/data/split_ss_dota_1024_200/trainval/',
+               r'../DOTAv10/data/split_ss_dota_1024_200/trainval/trainval_1024_P2Bfmt_dotav10_rbox.json',
                wordname_15,
                dataset='dota')
-        DOTA2COCOTest(r'DOTAv10/data/split_ss_dota_1024_200/test/',
-                r'DOTAv10/data/split_ss_dota_1024_200/test/test_1024_P2Bfmt_dotav10_rbox.json',
+        DOTA2COCOTrain(r'../DOTAv10/data/split_ss_dota_1024_200/val/',
+                r'../DOTAv10/data/split_ss_dota_1024_200/val/val_1024_P2Bfmt_dotav10_rbox.json',
+                wordname_15,
+                dataset='dota')
+        DOTA2COCOTest(r'../DOTAv10/data/split_ss_dota_1024_200/test/',
+                r'../DOTAv10/data/split_ss_dota_1024_200/test/test_1024_P2Bfmt_dotav10_rbox.json',
                 wordname_15,
                 dataset='dota')
         
     elif dataset == 'dior':
         DOTA2COCOTrain(r'DIOR/',
-                   r'DIOR/Annotations/trainval_rbox_pt_P2Bfmt.json',
+                   r'../DIOR/Annotations/trainval_rbox_pt_P2Bfmt.json',
                    word_name_dior,
                    dataset='dior')
         DOTA2COCOTest(r'DIOR/',
-                  r'DIOR/Annotations/test_rbox_pt_P2Bfmt.json',
+                  r'../DIOR/Annotations/test_rbox_pt_P2Bfmt.json',
                   word_name_dior,
                   dataset='dior')
     

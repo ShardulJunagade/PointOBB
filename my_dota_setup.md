@@ -86,10 +86,10 @@ Splitting a subset of DOTA V1.0 dataset into train val and test set with single 
 source /home/shardul.junagade/miniconda3/bin/activate open-mmlab
 python tools/dataset_converters/dota/dota_split.py \
     tools/dataset_converters/dota/split_config/single_scale.json \
-    "../data/dota" \
+    "../data/dota_subset" \
     "../DOTAv10/data_subset/split_ss_dota_1024_200" \
     --phase "train" "val" "test" \
-    --nproc 45
+    --nproc 30
 ```
 
 ## Convert DOTA to COCO format
@@ -110,7 +110,7 @@ cd PointOBB
 # train with single GPU, note adjust learning rate or batch size accordingly
 python tools/train.py \
     --config configs2/pointobb/pointobb_r50_fpn_2x_dota10.py \
-    --work-dir xxx/work_dir/pointobb_r50_fpn_2x_dota \
+    --work-dir xxx/work_dir_subset/pointobb_r50_fpn_2x_dota \
     --cfg-options evaluation.save_result_file='xxx/work_dir_subset/pointobb_r50_fpn_2x_dota_dist/pseudo_obb_result.json'
 
 # train with multiple GPUs
@@ -129,3 +129,34 @@ sh tools_cocorbox2dota.sh
 # train standard oriented object detectors 
 # Please use algorithms in mmrotate (https://github.com/open-mmlab/mmrotate)
 ```
+
+
+
+
+## Resume Training
+
+Yes, you **can** continue training from a certain epoch.  
+
+Your `train.py` script supports resuming training via the `--resume-from` argument. In your config file, you also have a commented-out `load_from` option, which allows loading a specific checkpoint.  
+
+### How to Resume Training  
+1. **Use the `--resume-from` Argument:**  
+   Run the script with:  
+   ```bash
+   python train.py --config your_config.py --resume-from path/to/checkpoint.pth
+   ```
+   This will continue training from the specified checkpoint.  
+
+2. **Manually Set `resume_from` in Config:**  
+   If you prefer, you can uncomment and set `resume_from` in your config file:  
+   ```python
+   resume_from = '../TOV_mmdetection_cache/work_dir/dota/epoch_22.pth'
+   ```
+   Then run:  
+   ```bash
+   python train.py --config your_config.py
+   ```
+
+### Difference Between `resume_from` and `load_from`
+- **`resume_from`** → Continues training from the exact state (including optimizer state and learning rate).  
+- **`load_from`** → Loads model weights but starts training from epoch 0 (useful for fine-tuning).  

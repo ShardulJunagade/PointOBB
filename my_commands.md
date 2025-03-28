@@ -6,6 +6,13 @@ This command monitors GPU usage and updates every second (only the bottom proces
 watch -n 1 "nvidia-smi | awk '/Processes:/ {flag=1; next} flag'"
 ```
 
+### Monitor GPU Usage with nvitop
+```
+pip install nvitop
+nvitop
+```
+
+
 ## List Open Files on NVIDIA Devices
 This command lists all open files on NVIDIA devices.
 ```sh
@@ -17,6 +24,8 @@ lsof /dev/nvidia*
 You can monitor the running process using:
 ```sh
 ps aux | grep dist_train.sh
+ps aux | grep train.py
+pgrep -laf train.py
 ```
 
 ## To Kill a Process

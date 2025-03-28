@@ -1,10 +1,12 @@
 data/
 data_subset/
+DOTAv10/
 images/
 annfiles/
 .vscode
 xxx/
 work_dirs/
+nohup.out
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

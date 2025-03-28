@@ -7,10 +7,12 @@ import math
 
 
 base_root = '../DOTAv10/data/split_ss_dota_1024_200/trainval/'
+# base_root = '../DOTAv10/data/split_ss_dota_1024_200/val/'              # uncomment this line for val
 imageparent = os.path.join(base_root, 'images')
 obb_anno_root = os.path.join(base_root, 'annfiles')
 
 labelTxt_out_path = '../DOTAv10/data/split_ss_dota_1024_200/trainval/labelTxt_obb_pt_trainval_viaobb_v1.0'
+# labelTxt_out_path = '../DOTAv10/data/split_ss_dota_1024_200/val/labelTxt_obb_pt_val_viaobb_v1.0'               # uncomment this line for val
 label_name_list = os.listdir(obb_anno_root)
 
 if not os.path.exists(labelTxt_out_path):

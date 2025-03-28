@@ -152,17 +152,17 @@ test_pipeline = [
         ])
 ]
 
-data_root_trainval = '../DOTAv10/data/split_ss_dota_1024_200/trainval/'
-data_root_test = '../DOTAv10/data/split_ss_dota_1024_200/trainval/'
+data_root_trainval = '../DOTAv10/data_subset/split_ss_dota_1024_200/test/'
+data_root_test = '../DOTAv10/data_subset/split_ss_dota_1024_200/test/'
 
 data = dict(
-    samples_per_gpu=10,  # Batch size per GPU
+    samples_per_gpu=8,  # Batch size per GPU
     workers_per_gpu=2,
     shuffle=False if debug else None,
     train=dict(
         type=dataset_type,
         version=angle_version,
-        ann_file = data_root_trainval + "trainval_1024_P2Bfmt_dotav10_rbox.json",
+        ann_file = data_root_trainval + "test_1024_P2Bfmt_dotav10_rbox.json",
         img_prefix = data_root_trainval + 'images/',
         pipeline=train_pipeline,
         filter_empty_gt=True
@@ -170,15 +170,16 @@ data = dict(
     val=dict(
         samples_per_gpu=2,
         type=dataset_type,
-        ann_file = data_root_trainval + "trainval_1024_P2Bfmt_dotav10_rbox.json",
+        ann_file = data_root_trainval + "test_1024_P2Bfmt_dotav10_rbox.json",
         img_prefix = data_root_trainval + 'images/',
         pipeline=test_pipeline,
         test_mode=False,
     ),
     test=dict(
+        samples_per_gpu=20,
         type=dataset_type,
         img_prefix=data_root_test + 'images/',
-        ann_file=data_root_test + "val_1024_P2Bfmt_dotav10_rbox.json",
+        ann_file=data_root_test + "test_1024_P2Bfmt_dotav10_rbox.json",
         pipeline=test_pipeline
     )
 )
@@ -198,7 +199,7 @@ lr_config = dict(
     warmup_ratio=0.001,
     step=[8 * training_time, 11 * training_time]  # Learning rate adjustment epochs
 )
-runner = dict(type='EpochBasedRunner', max_epochs=14 * training_time)  # Total epochs
+runner = dict(type='EpochBasedRunner', max_epochs=12 * training_time)  # Total epochs
 
 work_dir = '../TOV_mmdetection_cache/work_dir/dota/'
 
@@ -218,3 +219,12 @@ evaluation = dict(
 #     do_first_eval=True
 # )
 # runner = dict(type='EpochBasedRunner',max_epochs=0)
+
+
+# set path for checkpoint 
+load_from='xxx/work_dir_epoch_23/pointobb_r50_fpn_2x_dota/epoch_23.pth'
+evaluation = dict(
+    save_result_file='xxx/work_dir_epoch_14/test_pointobb_r50_fpn_2x_dota/pseudo_obb_result.json',
+    do_first_eval=True
+)
+runner = dict(type='EpochBasedRunner', max_epochs=0)
