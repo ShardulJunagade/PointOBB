@@ -168,7 +168,7 @@ data = dict(
         filter_empty_gt=True
     ),
     val=dict(
-        samples_per_gpu=2,
+        samples_per_gpu=10,
         type=dataset_type,
         ann_file = data_root_trainval + "trainval_1024_P2Bfmt_dotav10_rbox.json",
         img_prefix = data_root_trainval + 'images/',
@@ -190,7 +190,7 @@ optimizer = dict(type='SGD', lr=0.005, momentum=0.9, weight_decay=0.0001)
 
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 # learning policy
-training_time = 2  # Multiplier for the number of epochs
+training_time = 3  # Multiplier for the number of epochs
 lr_config = dict(
     policy='step',
     warmup='linear',
